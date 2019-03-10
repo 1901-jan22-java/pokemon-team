@@ -12,7 +12,7 @@
 		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.2.xsd">
 	
 	<context:annotation-config/>
-	<context:component-scan base-package="com.pokemon-team"></context:component-scan>
+	<context:component-scan base-package="com.pokemon"></context:component-scan>
 	<tx:annotation-driven/>
 	<mvc:annotation-driven/>
 	
@@ -46,5 +46,8 @@
 	<bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager">
 		<property name="entityManagerFactory" ref="entityManagerFactory" />
 	</bean>
-	<jpa:repositories base-package="com.pokemon-team" />
+	
+	<jpa:repositories base-package="com.pokemon" />
+	
+	<aop:aspectj-autoproxy />
 </beans>
