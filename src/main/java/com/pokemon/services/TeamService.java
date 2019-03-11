@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.pokemon.models.Team;
+import com.pokemon.models.Trainer;
 import com.pokemon.repositories.TeamRepository;
 
 @Service
@@ -18,9 +19,9 @@ public class TeamService {
 		return teamRepo.save(t);
 	}
 	
-	public Team findByUsername(String username) {
+	public Team findByUsername(Trainer trainer) {
 		System.out.println("in find by username");
-		return teamRepo.findBytrainerIdIgnoreCase(username);
+		return teamRepo.findBytrainer(trainer);
 	}
 	
 }

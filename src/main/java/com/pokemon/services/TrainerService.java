@@ -26,7 +26,7 @@ public class TrainerService {
 	}
 
 	public List<Trainer> getAll() {
-		return trainerRepo.findAll();
+		return (List<Trainer>) trainerRepo.findAll();
 	}
 	
 }

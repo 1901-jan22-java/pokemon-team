@@ -12,11 +12,13 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
-import javax.validation.constraints.Min;
+//import javax.validation.constraints.Min;
 
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 @Component
+@Transactional
 @Entity
 @Table(name="pokemon_team")
 public class Team {
@@ -38,12 +40,11 @@ public class Team {
 	@Column(name="TEAM_ID")
 	@SequenceGenerator(name="T_SEQ_GEN", sequenceName="T_SEQ", allocationSize=1)
 	@GeneratedValue(generator="T_SEQ_GEN", strategy=GenerationType.SEQUENCE)
-	@Min(value=0)
 	private int id;
 	
 	@ManyToOne(fetch=FetchType.EAGER, cascade=CascadeType.ALL)
 	@JoinColumn(name="TRAINER_ID", nullable=false)
-	private Trainer trainerId;
+	private Trainer trainer;
 	
 	@OneToOne
 	@JoinColumn(name="SLOT_ID1")
@@ -70,11 +71,13 @@ public class Team {
 	private Pokemon slot6;
 
 	public Team() {}
-	
-	public Team(Trainer trainerId, Pokemon slot1, Pokemon slot2, Pokemon slot3, Pokemon slot4, Pokemon slot5,
+
+	public Team(
+			Trainer trainerId, 
+			Pokemon slot1, Pokemon slot2, Pokemon slot3, Pokemon slot4, Pokemon slot5,
 			Pokemon slot6) {
 		super();
-		this.trainerId = trainerId;
+		this.trainer = trainerId;
 		this.slot1 = slot1;
 		this.slot2 = slot2;
 		this.slot3 = slot3;
@@ -92,11 +95,11 @@ public class Team {
 	}
 
 	public Trainer getTrainerId() {
-		return trainerId;
+		return trainer;
 	}
 
-	public void setTrainerId(Trainer trainerId) {
-		this.trainerId = trainerId;
+	public void setTrainerId(Trainer trainer) {
+		this.trainer = trainer;
 	}
 	
 	public Pokemon getSlot1() {
@@ -149,7 +152,8 @@ public class Team {
 
 	@Override
 	public String toString() {
-		return "Team [userId=" + trainerId + ", slot1=" + slot1 + ", slot2=" + slot2 + ", slot3=" + slot3 + ", slot4="
+		return "Team [userId=" 
+	+ trainer.toString() + ", slot1=" + slot1 + ", slot2=" + slot2 + ", slot3=" + slot3 + ", slot4="
 				+ slot4 + ", slot5=" + slot5 + ", slot6=" + slot6 + "]";
 	}
 	

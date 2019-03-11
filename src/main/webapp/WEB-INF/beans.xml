@@ -10,14 +10,14 @@
 		http://www.springframework.org/schema/data/jpa http://www.springframework.org/schema/data/jpa/spring-jpa-1.8.xsd
 		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.2.xsd
 		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.2.xsd">
-	
-	<context:annotation-config/>
+	<context:annotation-config />
 	<context:component-scan base-package="com.pokemon"></context:component-scan>
-	<tx:annotation-driven/>
-	<mvc:annotation-driven/>
-	
-	<!-- JDBC and hibernate configuration -->
-	<context:property-placeholder location="classpath:db.properties" />
+	<tx:annotation-driven />
+	<mvc:annotation-driven />
+
+<context:property-placeholder
+		location="classpath:db.properties" />
+
 	<bean id="dataSource"
 		class="org.apache.commons.dbcp.BasicDataSource">
 		<property name="driverClassName" value="${driver}" />
@@ -26,13 +26,16 @@
 		<property name="password" value="${pwd}" />
 	</bean>
 	
+		<!-- Spring data isnt natively compatible with Hibernate, we need an adapter 
+		to use it instead of just using JPA -->
 	<bean id="hibernateJpaVendorAdapter"
 		class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter"></bean>
+	
 	<bean id="entityManagerFactory"
 		class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
 		<property name="dataSource" ref="dataSource" />
 		<property name="jpaVendorAdapter" ref="hibernateJpaVendorAdapter" />
-		<property name="packagesToScan" value="com.pokemon-team" />
+		<property name="packagesToScan" value="com.pokemon" />
 		<property name="jpaProperties">
 			<props>
 				<prop key="hibernate.dialect">org.hibernate.dialect.Oracle10gDialect</prop>
@@ -43,11 +46,15 @@
 		</property>
 	</bean>
 	
+	<!-- Spring data compatible tx manager -->
 	<bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager">
 		<property name="entityManagerFactory" ref="entityManagerFactory" />
 	</bean>
 	
+	<!-- tell JPA where to look for repos -->
 	<jpa:repositories base-package="com.pokemon" />
 	
-	<aop:aspectj-autoproxy />
-</beans>
+	
+<aop:aspectj-autoproxy />
+	
+	</beans>

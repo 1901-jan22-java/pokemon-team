@@ -12,30 +12,35 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.pokemon.models.Team;
+import com.pokemon.models.Trainer;
 import com.pokemon.services.TeamService;
+import com.pokemon.services.TrainerService;
 
-//@RestController
-//@CrossOrigin
-//public class TeamController {
-//
-//	@Autowired
-//	private TeamService service;
-//	
-//	@RequestMapping(value="/teams", method=RequestMethod.POST, 
-//			consumes=MediaType.APPLICATION_JSON_VALUE, 
-//			produces=MediaType.APPLICATION_JSON_VALUE)
-//	public ResponseEntity<Team> add(@RequestBody Team team){
-//		Team t = service.add(team);
-//		if(t == null) return new ResponseEntity<Team>(HttpStatus.CONFLICT);
-//		return new ResponseEntity<Team>(t, HttpStatus.CREATED);
-//	}
-//	
-//	@RequestMapping(value="/teams/username={name}", method=RequestMethod.POST,
-//			consumes=MediaType.APPLICATION_JSON_VALUE,
-//			produces=MediaType.APPLICATION_JSON_VALUE)
-//	public ResponseEntity<Team> findByUsername(@PathVariable String name){
-//		Team t = service.findByUsername(name);
-//		return new ResponseEntity<Team>(t, HttpStatus.OK);
-//	}
-//	
-//}
+@RestController
+@CrossOrigin
+public class TeamController {
+
+	@Autowired
+	private TeamService service;
+	@Autowired
+	private TrainerService tservice;
+	
+	@RequestMapping(value="/teams", method=RequestMethod.POST, 
+			consumes=MediaType.APPLICATION_JSON_VALUE, 
+			produces=MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<Team> add(@RequestBody Team team){
+		Team t = service.add(team);
+		if(t == null) return new ResponseEntity<Team>(HttpStatus.CONFLICT);
+		return new ResponseEntity<Team>(t, HttpStatus.CREATED);
+	}
+	
+	@RequestMapping(value="/teams/id={name}", method=RequestMethod.POST,
+			consumes=MediaType.APPLICATION_JSON_VALUE,
+			produces=MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<Team> findByUsername(@PathVariable String name){
+		Trainer trainer = tservice.findByUsername(name);
+		Team t = service.findByUsername(trainer);
+		return new ResponseEntity<Team>(t, HttpStatus.OK);
+	}
+	
+}

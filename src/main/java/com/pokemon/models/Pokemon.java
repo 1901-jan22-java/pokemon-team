@@ -9,8 +9,10 @@ import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 @Component
+@Transactional
 @Entity
 @Table(name="poke_dex")
 public class Pokemon {
