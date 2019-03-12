@@ -13,6 +13,7 @@ import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 //import javax.validation.constraints.Min;
+import javax.validation.constraints.Min;
 
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
@@ -40,6 +41,7 @@ public class Team {
 	@Column(name="TEAM_ID")
 	@SequenceGenerator(name="T_SEQ_GEN", sequenceName="T_SEQ", allocationSize=1)
 	@GeneratedValue(generator="T_SEQ_GEN", strategy=GenerationType.SEQUENCE)
+	@Min(value=0)
 	private int id;
 	
 	@ManyToOne(fetch=FetchType.EAGER, cascade=CascadeType.ALL)
@@ -94,11 +96,11 @@ public class Team {
 		this.id = id;
 	}
 
-	public Trainer getTrainerId() {
+	public Trainer getTrainer() {
 		return trainer;
 	}
 
-	public void setTrainerId(Trainer trainer) {
+	public void setTrainer(Trainer trainer) {
 		this.trainer = trainer;
 	}
 	

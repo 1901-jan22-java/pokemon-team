@@ -7,6 +7,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+import javax.validation.constraints.Min;
 
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
@@ -31,6 +32,7 @@ public class Pokemon {
 	@Column(name="POKEMON_ID")
 	@SequenceGenerator(name="P_SEQ_GEN", sequenceName="P_SEQ", allocationSize=1)
 	@GeneratedValue(generator="P_SEQ_GEN", strategy=GenerationType.SEQUENCE)
+	@Min(value=0)
 	private int id;
 	
 	@Column(name="Pokemon_number", nullable=false)

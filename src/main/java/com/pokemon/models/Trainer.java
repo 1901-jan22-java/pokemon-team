@@ -7,6 +7,9 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
 
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
@@ -21,18 +24,26 @@ public class Trainer {
 	@Column(name="TRAINER_ID")
 	@SequenceGenerator(name="PT_SEQ_GEN", sequenceName="PT_SEQ", allocationSize=1)
 	@GeneratedValue(generator="PT_SEQ_GEN", strategy=GenerationType.SEQUENCE)
+	@Min(value=0)
 	private int id;
 	
 	@Column(name="username", nullable=false, unique=true)
+	@NotNull(message="username is necessary")
+	@Pattern(regexp="[a-z-A-Z]*", message="Only include letters")
 	private String username;
 	
 	@Column(name="password",nullable=false)
+	@NotNull(message="Password is necessary")
 	private String password;
 	
 	@Column(name="first_name",nullable=false)
+	@NotNull(message="First Name is necessary")
+	@Pattern(regexp="[a-z-A-Z]*", message="Only include letters")
 	private String firstName;
 	
 	@Column(name="last_name", nullable=false)
+	@NotNull(message="Last Name is necessary")
+	@Pattern(regexp="[a-z-A-Z]*", message="Only include letters")
 	private String lastName;
 
 	public Trainer() {}
