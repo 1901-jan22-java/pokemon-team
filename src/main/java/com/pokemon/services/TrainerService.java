@@ -16,12 +16,19 @@ public class TrainerService {
 	@Autowired
 	private TrainerRepository trainerRepo;
 	
+	public String hashString(String str) {
+		String saltedhash = "n0w" + str.hashCode() + "$@1ted";
+		String CompleteHash = saltedhash.hashCode() + "";
+		return CompleteHash;
+	}
+	
 	public Trainer add(Trainer t) {
-		return trainerRepo.save(t);
+		
+		return trainerRepo.save(new Trainer(t.getUsername(), hashString(t.getPassword()), t.getFirstName(), t.getLastName()));
 	}
 	
 	public Trainer findByUsername(String username) {
-		System.out.println("in find by username");
+		System.out.println("in find by username " + trainerRepo.findByUsernameIgnoreCase(username));
 		return trainerRepo.findByUsernameIgnoreCase(username);
 	}
 

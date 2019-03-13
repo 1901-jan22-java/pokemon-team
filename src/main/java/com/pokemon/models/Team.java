@@ -75,11 +75,11 @@ public class Team {
 	public Team() {}
 
 	public Team(
-			Trainer trainerId, 
+			Trainer trainer, 
 			Pokemon slot1, Pokemon slot2, Pokemon slot3, Pokemon slot4, Pokemon slot5,
 			Pokemon slot6) {
 		super();
-		this.trainer = trainerId;
+		this.trainer = trainer;
 		this.slot1 = slot1;
 		this.slot2 = slot2;
 		this.slot3 = slot3;

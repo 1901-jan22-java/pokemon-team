@@ -48,9 +48,8 @@ public class Trainer {
 
 	public Trainer() {}
 	
-	public Trainer(int id, String username, String password, String firstName, String lastName) {
+	public Trainer(String username, String password, String firstName, String lastName) {
 		super();
-		this.id = id;
 		this.username = username;
 		this.password = password;
 		this.firstName = firstName;
@@ -95,6 +94,12 @@ public class Trainer {
 
 	public void setLastName(String lastName) {
 		this.lastName = lastName;
+	}
+
+	@Override
+	public String toString() {
+		return "Trainer [id=" + id + ", username=" + username + ", password=" + password + ", firstName=" + firstName
+				+ ", lastName=" + lastName + "]";
 	}
 	
 	
