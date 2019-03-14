@@ -37,9 +37,12 @@ public class TrainerController {
 		return new ResponseEntity<List<Trainer>>(service.getAll(), HttpStatus.OK);
 	}
 	
-	@RequestMapping(value="/trainers/username={name}", method=RequestMethod.GET)
-	public ResponseEntity<Trainer> findByUsername(@PathVariable String name){
-		Trainer u = service.findByUsername(name);
+	@RequestMapping(value="/login", method=RequestMethod.POST,
+			consumes=MediaType.APPLICATION_JSON_VALUE, 
+			produces=MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<Trainer> findByUsername(@RequestBody Trainer loginInfo){
+		Trainer u = service.login(loginInfo);
+		u.setPassword("");
 		return new ResponseEntity<Trainer>(u, HttpStatus.OK);
 	}
 	

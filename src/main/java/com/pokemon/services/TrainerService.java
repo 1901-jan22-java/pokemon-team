@@ -23,12 +23,17 @@ public class TrainerService {
 	}
 	
 	public Trainer add(Trainer t) {
-		
 		return trainerRepo.save(new Trainer(t.getUsername(), hashString(t.getPassword()), t.getFirstName(), t.getLastName()));
 	}
 	
+	public Trainer login(Trainer trainer) {
+		Trainer t = trainerRepo.findByUsernameIgnoreCase(trainer.getUsername());
+		if (t.getPassword().equals(hashString(trainer.getPassword())))
+			return t;
+		return null;
+	}
+	
 	public Trainer findByUsername(String username) {
-		System.out.println("in find by username " + trainerRepo.findByUsernameIgnoreCase(username));
 		return trainerRepo.findByUsernameIgnoreCase(username);
 	}
 
