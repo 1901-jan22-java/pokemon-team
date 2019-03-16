@@ -41,9 +41,13 @@ public class TrainerController {
 			consumes=MediaType.APPLICATION_JSON_VALUE, 
 			produces=MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Trainer> findByUsername(@RequestBody Trainer loginInfo){
+		System.out.println(loginInfo.toString());
 		Trainer u = service.login(loginInfo);
-		u.setPassword("");
-		return new ResponseEntity<Trainer>(u, HttpStatus.OK);
+		if (u != null) {
+			u.setPassword("");
+			return new ResponseEntity<Trainer>(u, HttpStatus.OK);
+		}
+		return new ResponseEntity<Trainer>(HttpStatus.UNAUTHORIZED);
 	}
 	
 }

@@ -28,7 +28,7 @@ public class TrainerService {
 	
 	public Trainer login(Trainer trainer) {
 		Trainer t = trainerRepo.findByUsernameIgnoreCase(trainer.getUsername());
-		if (t.getPassword().equals(hashString(trainer.getPassword())))
+		if (t != null && t.getPassword().equals(hashString(trainer.getPassword())))
 			return t;
 		return null;
 	}
