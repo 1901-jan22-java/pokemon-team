@@ -6,6 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -13,7 +15,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.pokemon.Validators.TrainerValidator;
 import com.pokemon.models.Trainer;
+import com.pokemon.services.SecurityService;
 import com.pokemon.services.TrainerService;
 
 @RestController
@@ -23,10 +27,23 @@ public class TrainerController {
 	@Autowired
 	private TrainerService service;
 	
-	@RequestMapping(value="/trainers", method=RequestMethod.POST, 
+	 @Autowired
+	 private SecurityService securityService;
+
+	 @Autowired
+	 private TrainerValidator userValidator;
+
+	
+	@RequestMapping(value="/registration", method=RequestMethod.POST, 
 			consumes=MediaType.APPLICATION_JSON_VALUE, 
 			produces=MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<Trainer> add(@RequestBody Trainer user){
+	public ResponseEntity<Trainer> add(@RequestBody Trainer user, BindingResult bindingResult){
+		 userValidator.validate(user, bindingResult);
+
+        if (bindingResult.hasErrors()) {
+            return new ResponseEntity<Trainer>(HttpStatus.CONFLICT);
+        }
+
 		Trainer u = service.add(user);
 		if(u == null) return new ResponseEntity<Trainer>(HttpStatus.CONFLICT);
 		return new ResponseEntity<Trainer>(u, HttpStatus.CREATED);
@@ -40,14 +57,17 @@ public class TrainerController {
 	@RequestMapping(value="/login", method=RequestMethod.POST,
 			consumes=MediaType.APPLICATION_JSON_VALUE, 
 			produces=MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<Trainer> findByUsername(@RequestBody Trainer loginInfo){
+	public ResponseEntity<UserDetails> findByUsername(@RequestBody Trainer loginInfo){
 		System.out.println(loginInfo.toString());
-		Trainer u = service.login(loginInfo);
-		if (u != null) {
-			u.setPassword("");
-			return new ResponseEntity<Trainer>(u, HttpStatus.OK);
+		try {
+			UserDetails u = service.login(loginInfo);
+			if (u != null) {
+				return new ResponseEntity<UserDetails>(u, HttpStatus.OK);
+			}
+			return new ResponseEntity<UserDetails>(HttpStatus.UNAUTHORIZED);
+		} catch (Exception e) {
+			return new ResponseEntity<UserDetails>(HttpStatus.UNAUTHORIZED);
 		}
-		return new ResponseEntity<Trainer>(HttpStatus.UNAUTHORIZED);
 	}
 	
 }

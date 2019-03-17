@@ -35,6 +35,8 @@ public class Trainer {
 	@Column(name="password",nullable=false)
 	@NotNull(message="Password is necessary")
 	private String password;
+
+	private String passwordConfirm;
 	
 	@Column(name="first_name",nullable=false)
 	@NotNull(message="First Name is necessary")
@@ -78,6 +80,16 @@ public class Trainer {
 
 	public void setPassword(String password) {
 		this.password = password;
+	}
+
+	
+	
+	public String getPasswordConfirm() {
+		return passwordConfirm;
+	}
+
+	public void setPasswordConfirm(String passwordConfirm) {
+		this.passwordConfirm = passwordConfirm;
 	}
 
 	public String getFirstName() {
